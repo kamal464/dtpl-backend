@@ -1,38 +1,42 @@
-// Assuming you have a Sequelize instance named sequelizeConnection
-
 const { DataTypes } = require('sequelize');
 const { sequelizeConnection } = require('../lib/mqsqlLib');
-
-const Schematable = sequelizeConnection.define('Schematable', {
+const EmpdependentDBO = sequelizeConnection.define('empdependent', {
   id: {
     type: DataTypes.BIGINT,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: false,
   },
-  tablename: {
+  birthdate: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  dependentname: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  modulename: {
-    type: DataTypes.STRING,
-    allowNull: true,
+  fkempid: {
+    type: DataTypes.BIGINT,
+    allowNull: false,
   },
-  featurename: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  description: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  notes: {
+  gender: {
     type: DataTypes.STRING,
     allowNull: true,
   },
   isactive: {
     type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  relationtype: {
+    type: DataTypes.STRING,
     allowNull: false,
+  },
+  reviewdate: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  reviewedbyfkempid: {
+    type: DataTypes.BIGINT,
+    allowNull: true,
   },
   sid: {
     type: DataTypes.INTEGER,
@@ -59,8 +63,8 @@ const Schematable = sequelizeConnection.define('Schematable', {
     allowNull: false,
   },
 }, {
-  tableName: 'schematable',
-  timestamps: false, // Assuming you don't have timestamp columns (created_at, updated_at)
+  timestamps: false, // Set this to false if you don't want createdAt and updatedAt columns
+  tableName: 'empdependent', // Set the table name explicitly if it's different from the model name
 });
 
-module.exports = Schematable;
+module.exports = EmpdependentDBO;
