@@ -12,8 +12,8 @@ const {
 exports.getCountryDropdown = catchAsync(async (req, res) => {
   try {
     const result = await Country.findAll({
-      attributes: ['id', ['value', 'name']],
-      order: [['id', 'ASC']],
+      attributes: ['code', ['name', 'value']], // Adjust column names here
+      order: [['code', 'ASC']],
     });
     return res.status(200).json(result);
   } catch (error) {
@@ -26,10 +26,11 @@ exports.getCountryDropdown = catchAsync(async (req, res) => {
 });
 
 // ReasonItem Dropdown
+// ReasonItem Dropdown
 exports.getReasonItemDropdown = catchAsync(async (req, res) => {
   try {
     const result = await ReasonItem.findAll({
-      attributes: ['id', ['value', 'value']],
+      attributes: ['code', ['value', 'value']], // Adjust column names here
       where: {
         fkreasonid: sequelizeConnection.literal(`(SELECT id FROM reason WHERE name = '${req.headers.reason}')`),
       },
@@ -49,7 +50,7 @@ exports.getReasonItemDropdown = catchAsync(async (req, res) => {
 exports.getOfficesDropdown = catchAsync(async (req, res) => {
   try {
     const result = await Office.findAll({
-      attributes: ['id', ['value', 'name']],
+      attributes: ['id', ['name', 'value']], // Adjust column names here
       where: { fkorgid: req.headers.fkorgid },
       order: [['id', 'ASC']],
     });
@@ -67,7 +68,7 @@ exports.getOfficesDropdown = catchAsync(async (req, res) => {
 exports.getDepartmentsDropdown = catchAsync(async (req, res) => {
   try {
     const result = await Department.findAll({
-      attributes: ['id', ['value', 'name']],
+      attributes: ['id', ['name', 'value']], // Adjust column names here
       where: { fkofficeid: req.headers.fkofficeid },
       order: [['id', 'ASC']],
     });
@@ -85,7 +86,7 @@ exports.getDepartmentsDropdown = catchAsync(async (req, res) => {
 exports.getEmployeesDropdown = catchAsync(async (req, res) => {
   try {
     const result = await Employee.findAll({
-      attributes: ['id', ['value', 'name']],
+      attributes: ['id', ['name', 'value']], // Adjust column names here
       where: { fkorgid: req.headers.fkorgid },
       order: [['id', 'ASC']],
     });
