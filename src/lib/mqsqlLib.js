@@ -22,7 +22,8 @@ const sequelizeConnection = new Sequelize(
   process.env.DB_USER || 'kasturi',
   process.env.DB_PASSWORD || 'opentools',
   {
-    host: process.env.DB_IP || '183.82.116.4',
+    // host: process.env.DB_IP || '183.82.116.4',
+    host: process.env.DB_IP || '192.168.0.5',
     port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
     logging: console.log, // Enable logging for detailed information

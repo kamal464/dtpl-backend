@@ -12,9 +12,6 @@ const emphistoryRouter = require("./emphistoryRoute");
 const empofficialRouter = require("./empofficialRoute");
 const emppersonalRouter = require("./emppersonalRoute");
 const empprofileRouter = require("./empprofileRoute");
-
-
-  
 const empresignRouter = require("./empresignRoute");
 const empsalaryRouter = require("./empsalaryRoute");
 const empworkhistoryRouter = require("./empworkhistoryRoute");
@@ -30,6 +27,8 @@ const schematableattrRouter = require("./schematableattrRoute");
 const settingRouter = require("./settingRoute");
 const webmenuRouter = require("./webmenuRoute");
 const vfsRouter = require("./vfsRoute");
+const attendancerulesRouter = require("./attendencerulesRoute");
+const holidaysRouter = require("./holidaysRoute");
 
 
 // baseRouter.use("/schematable", schemaTableRouter);
@@ -60,5 +59,8 @@ baseRouter.use("/schematableattr",schematableattrRouter);
 baseRouter.use("/setting",settingRouter);
 baseRouter.use("/webmenu",webmenuRouter);
 baseRouter.use("/vfs",vfsRouter);
+baseRouter.use("/attendencerules",attendancerulesRouter);
+baseRouter.use("/holidays",holidaysRouter);
+
 
 module.exports = baseRouter;
