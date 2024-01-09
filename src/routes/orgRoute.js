@@ -8,6 +8,7 @@ packageRouter.post(
   );
 packageRouter.post(
     "/getall",
+  
     orgController.getAllRecords
   );
 packageRouter.post(

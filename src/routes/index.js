@@ -29,6 +29,7 @@ const webmenuRouter = require("./webmenuRoute");
 const vfsRouter = require("./vfsRoute");
 const attendancerulesRouter = require("./attendencerulesRoute");
 const holidaysRouter = require("./holidaysRoute");
+const utilsRouter = require("../utils/utilsRoute");
 
 
 // baseRouter.use("/schematable", schemaTableRouter);
@@ -61,6 +62,7 @@ baseRouter.use("/webmenu",webmenuRouter);
 baseRouter.use("/vfs",vfsRouter);
 baseRouter.use("/attendencerules",attendancerulesRouter);
 baseRouter.use("/holidays",holidaysRouter);
+baseRouter.use("/utils",utilsRouter);
 
 
 module.exports = baseRouter;
