@@ -49,11 +49,7 @@ exports.getAllHolidays = catchAsync(async (req, res) => {
 
     console.log("List:", holidays);
 
-    return res.status(200).json({
-      data: holidays,
-      status: true,
-      message: "Holidays retrieved successfully.",
-    });
+    return res.status(200).json(holidays);
   } catch (e) {
     console.error("Error in Controller:", e.message);
     return res.status(500).json({

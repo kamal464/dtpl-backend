@@ -22,11 +22,7 @@ exports.getEmployee = catchAsync(async (req, res) => {
 
     console.log('Query Result:', employee);
 
-    return res.status(200).json({
-      data: employee,
-      status: true,
-      message: 'Employee retrieved successfully.',
-    });
+    return res.status(200).json(employee);
   } catch (e) {
     console.error('Error in Controller:', e.message);
     return res.status(500).json({
@@ -39,15 +35,16 @@ exports.getEmployee = catchAsync(async (req, res) => {
 // Get all Employees
 exports.getAllEmployees = catchAsync(async (req, res) => {
   try {
-    // Implement logic to get all employees
-    // ...
+    const { filtername, filtervalue } = req.headers;
 
-    return res.status(200).json({
-      // Return the list of employees
-      data: [],
-      status: true,
-      message: 'Employees retrieved successfully.',
+    const whereCondition = filtername && filtervalue ? { [filtername]: filtervalue } : {};
+
+    const employees = await Employee.findAll({
+      where: whereCondition,
     });
+    console.log('List:', employees);
+
+    return res.status(200).json(employees);
   } catch (e) {
     console.error('Error in Controller:', e.message);
     return res.status(500).json({

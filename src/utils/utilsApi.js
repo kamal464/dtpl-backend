@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
 const catchAsync = require("../utils/catchAsync");
+const { sequelizeConnection } = require("../lib/mqsqlLib");
 const {
   Country,
   ReasonItem,
@@ -12,8 +13,8 @@ const {
 exports.getCountryDropdown = catchAsync(async (req, res) => {
   try {
     const result = await Country.findAll({
-      attributes: ['id', ['value', 'name']],
-      order: [['id', 'ASC']],
+      attributes: ['code', ['name', 'value']], // Adjust column names here
+      order: [['code', 'ASC']],
     });
     return res.status(200).json(result);
   } catch (error) {
@@ -26,15 +27,46 @@ exports.getCountryDropdown = catchAsync(async (req, res) => {
 });
 
 // ReasonItem Dropdown
+// ReasonItem Dropdown
 exports.getReasonItemDropdown = catchAsync(async (req, res) => {
   try {
+    const reasonName = req.headers.reason;
+
+    // Ensure that the reason is provided in the request headers
+    if (!reasonName) {
+      return res.status(400).json({
+        status: false,
+        message: 'Reason not provided in headers.',
+      });
+    }
+
+    // Find the reason ID based on the provided name
+    const reason = await sequelizeConnection.query(
+      'SELECT id FROM reason WHERE name = :name',
+      {
+        replacements: { name: reasonName },
+        type: sequelizeConnection.QueryTypes.SELECT,
+      }
+    );
+
+    // Check if the reason exists
+    if (!reason || reason.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: 'Reason not found.',
+      });
+    }
+
     const result = await ReasonItem.findAll({
-      attributes: ['id', ['value', 'value']],
+      attributes: ['code', ['value', 'value']],
       where: {
-        fkreasonid: sequelizeConnection.literal(`(SELECT id FROM reason WHERE name = '${req.headers.reason}')`),
+        fkreasonid: reason[0].id,
       },
       order: [['serialno', 'ASC']],
     });
+
+    console.log(result);
+
     return res.status(200).json(result);
   } catch (error) {
     console.error('Error in Controller:', error.message);
@@ -44,12 +76,11 @@ exports.getReasonItemDropdown = catchAsync(async (req, res) => {
     });
   }
 });
-
 // Offices Dropdown
 exports.getOfficesDropdown = catchAsync(async (req, res) => {
   try {
     const result = await Office.findAll({
-      attributes: ['id', ['value', 'name']],
+      attributes: ['id', ['name', 'value']], // Adjust column names here
       where: { fkorgid: req.headers.fkorgid },
       order: [['id', 'ASC']],
     });
@@ -67,7 +98,7 @@ exports.getOfficesDropdown = catchAsync(async (req, res) => {
 exports.getDepartmentsDropdown = catchAsync(async (req, res) => {
   try {
     const result = await Department.findAll({
-      attributes: ['id', ['value', 'name']],
+      attributes: ['id', ['name', 'value']], // Adjust column names here
       where: { fkofficeid: req.headers.fkofficeid },
       order: [['id', 'ASC']],
     });
@@ -85,7 +116,7 @@ exports.getDepartmentsDropdown = catchAsync(async (req, res) => {
 exports.getEmployeesDropdown = catchAsync(async (req, res) => {
   try {
     const result = await Employee.findAll({
-      attributes: ['id', ['value', 'name']],
+      attributes: ['id', ['name', 'value']], // Adjust column names here
       where: { fkorgid: req.headers.fkorgid },
       order: [['id', 'ASC']],
     });

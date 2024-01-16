@@ -22,11 +22,10 @@ exports.getDepartment = catchAsync(async (req, res) => {
 
     console.log('Query Result:', department);
 
-    return res.status(200).json({
-      data: department,
-      status: true,
-      message: 'Department retrieved successfully.',
-    });
+    return res.status(200).json(
+      ddepartment
+
+    );
   } catch (e) {
     console.error('Error in Controller:', e.message);
     return res.status(500).json({
@@ -49,11 +48,7 @@ exports.getAllDepartments = catchAsync(async (req, res) => {
 
     console.log('List:', departments);
 
-    return res.status(200).json({
-      data: departments,
-      status: true,
-      message: 'Departments retrieved successfully.',
-    });
+    return res.status(200).json(departments);
   } catch (e) {
     console.error('Error in Controller:', e.message);
     return res.status(500).json({
@@ -149,78 +144,77 @@ exports.updateDepartment = catchAsync(async (req, res) => {
 
 // Delete Department
 exports.deleteDepartment = catchAsync(async (req, res) => {
-    try {
-      const { id } = req.headers;
-  
-      if (!id) {
-        throw new Error("Id is required");
-      }
-  
-      const deletedDepartment = await Department.findByPk(id);
-  
-      if (!deletedDepartment) {
-        return res.status(404).json({
-          status: false,
-          message: `No Department with this id: ${id} found`,
-        });
-      }
-  
-      await Department.destroy({
-        where: { id: deletedDepartment.id },
-      });
-  
-      console.log('Department Deleted:', deletedDepartment);
-  
-      return res.status(200).json({
-        data: deletedDepartment,
-        status: true,
-        message: 'Department successfully deleted.',
-      });
-    } catch (e) {
-      console.error('Error in Controller:', e.message);
-      return res.status(500).json({
+  try {
+    const { id } = req.headers;
+
+    if (!id) {
+      throw new Error("Id is required");
+    }
+
+    const deletedDepartment = await Department.findByPk(id);
+
+    if (!deletedDepartment) {
+      return res.status(404).json({
         status: false,
-        message: e.message,
+        message: `No Department with this id: ${id} found`,
       });
     }
-  });
-  
+
+    await Department.destroy({
+      where: { id: deletedDepartment.id },
+    });
+
+    console.log('Department Deleted:', deletedDepartment);
+
+    return res.status(200).json({
+      data: deletedDepartment,
+      status: true,
+      message: 'Department successfully deleted.',
+    });
+  } catch (e) {
+    console.error('Error in Controller:', e.message);
+    return res.status(500).json({
+      status: false,
+      message: e.message,
+    });
+  }
+});
+
 
 exports.getDepartmentList = catchAsync(async (req, res) => {
-    try {
-      console.log('Request Body:', req.body);
-      const { filters, order_by } = req.body;
-  
-      const filterConditions = filters.map(filter => ({
-        [filter.name]: filter.value,
-      }));
-  
-    
-      const orderConditions = order_by.map(orderBy => [
-        orderBy.name,
-        orderBy.direction === 'desc' ? 'DESC' : 'ASC',
-      ]);
-  
-      const departmentList = await Department.findAll({
-        where: {
-          [Op.and]: filterConditions,
-        },
-        order: orderConditions,
-      });
-  
-      console.log('Department List:', departmentList);
-  
-      return res.status(200).json({
-        data: departmentList,
-        status: true,
-        message: 'Department list retrieved successfully.',
-      });
-    } catch (e) {
-      console.error('Error in Controller:', e.message);
-      return res.status(500).json({
-        status: false,
-        message: e.message,
-      });
-    }
-  });
-  
+  try {
+    console.log('Request Body:', req.body);
+    const { filters, order_by } = req.body;
+
+    const filterConditions = filters.map(filter => ({
+      [filter.name]: filter.value,
+    }));
+
+
+    const orderConditions = order_by.map(orderBy => [
+      orderBy.name,
+      orderBy.direction === 'desc' ? 'DESC' : 'ASC',
+    ]);
+
+    const departmentList = await Department.findAll({
+      where: {
+        [Op.and]: filterConditions,
+      },
+      order: orderConditions,
+    });
+
+    console.log('Department List:', departmentList);
+
+    return res.status(200).json({
+      data: departmentList,
+      status: true,
+      message: 'Department list retrieved successfully.',
+    });
+  } catch (e) {
+    console.error('Error in Controller:', e.message);
+    return res.status(500).json({
+      status: false,
+      message: e.message,
+    });
+  }
+});

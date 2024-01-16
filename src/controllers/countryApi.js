@@ -22,11 +22,7 @@ exports.getCountry = catchAsync(async (req, res) => {
 
     console.log('Query Result:', country);
 
-    return res.status(200).json({
-      data: country,
-      status: true,
-      message: 'Country retrieved successfully.',
-    });
+    return res.status(200).json(country);
   } catch (e) {
     console.error('Error in Controller:', e.message);
     return res.status(500).json({
@@ -51,11 +47,7 @@ exports.getAllCountries = catchAsync(async (req, res) => {
 
     console.log('Query Result:', countries);
 
-    return res.status(200).json({
-      data: countries,
-      status: true,
-      message: 'Countries retrieved successfully.',
-    });
+    return res.status(200).json(countries);
   } catch (e) {
     console.error('Error in Controller:', e.message);
     return res.status(500).json({

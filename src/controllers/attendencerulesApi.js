@@ -22,11 +22,7 @@ exports.getAttendancerule = catchAsync(async (req, res) => {
 
     console.log("Query Result:", attendancerule);
 
-    return res.status(200).json({
-      data: attendancerule,
-      status: true,
-      message: "Attendancerule retrieved successfully.",
-    });
+    return res.status(200).json(attendancerule);
   } catch (e) {
     console.error("Error in Controller:", e.message);
     return res.status(500).json({
@@ -49,11 +45,7 @@ exports.getAllAttendancerules = catchAsync(async (req, res) => {
 
     console.log("List:", attendancerules);
 
-    return res.status(200).json({
-      data: attendancerules,
-      status: true,
-      message: "Attendancerules retrieved successfully.",
-    });
+    return res.status(200).json(attendancerules);
   } catch (e) {
     console.error("Error in Controller:", e.message);
     return res.status(500).json({
