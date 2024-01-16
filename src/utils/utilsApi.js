@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
 const catchAsync = require("../utils/catchAsync");
+const { sequelizeConnection } = require("../lib/mqsqlLib");
 const {
   Country,
   ReasonItem,
@@ -29,13 +30,43 @@ exports.getCountryDropdown = catchAsync(async (req, res) => {
 // ReasonItem Dropdown
 exports.getReasonItemDropdown = catchAsync(async (req, res) => {
   try {
+    const reasonName = req.headers.reason;
+
+    // Ensure that the reason is provided in the request headers
+    if (!reasonName) {
+      return res.status(400).json({
+        status: false,
+        message: 'Reason not provided in headers.',
+      });
+    }
+
+    // Find the reason ID based on the provided name
+    const reason = await sequelizeConnection.query(
+      'SELECT id FROM reason WHERE name = :name',
+      {
+        replacements: { name: reasonName },
+        type: sequelizeConnection.QueryTypes.SELECT,
+      }
+    );
+
+    // Check if the reason exists
+    if (!reason || reason.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: 'Reason not found.',
+      });
+    }
+
     const result = await ReasonItem.findAll({
-      attributes: ['code', ['value', 'value']], // Adjust column names here
+      attributes: ['code', ['value', 'value']],
       where: {
-        fkreasonid: sequelizeConnection.literal(`(SELECT id FROM reason WHERE name = '${req.headers.reason}')`),
+        fkreasonid: reason[0].id,
       },
       order: [['serialno', 'ASC']],
     });
+
+    console.log(result);
+
     return res.status(200).json(result);
   } catch (error) {
     console.error('Error in Controller:', error.message);
@@ -45,7 +76,6 @@ exports.getReasonItemDropdown = catchAsync(async (req, res) => {
     });
   }
 });
-
 // Offices Dropdown
 exports.getOfficesDropdown = catchAsync(async (req, res) => {
   try {

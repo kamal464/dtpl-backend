@@ -22,11 +22,7 @@ exports.getEmpofficial = catchAsync(async (req, res) => {
 
     console.log('Query Result:', empofficial);
 
-    return res.status(200).json({
-      data: empofficial,
-      status: true,
-      message: 'Empofficial retrieved successfully.',
-    });
+    return res.status(200).json(empofficial);
   } catch (e) {
     console.error('Error in Controller:', e.message);
     return res.status(500).json({
@@ -51,11 +47,7 @@ exports.getAllEmpofficials = catchAsync(async (req, res) => {
 
     console.log('Query Result:', empofficials);
 
-    return res.status(200).json({
-      data: empofficials,
-      status: true,
-      message: 'Empofficials retrieved successfully.',
-    });
+    return res.status(200).json(empofficials);
   } catch (e) {
     console.error('Error in Controller:', e.message);
     return res.status(500).json({

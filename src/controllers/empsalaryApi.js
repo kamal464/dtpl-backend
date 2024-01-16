@@ -20,11 +20,7 @@ exports.getRecord = catchAsync(async (req, res) => {
 
   console.log('Query Result:', row);
 
-  return res.status(200).json({
-    data: row,
-    status: true,
-    message: 'Record retrieved successfully.',
-  });
+  return res.status(200).json(row);
 });
 
 exports.getAllRecords = catchAsync(async (req, res) => {
