@@ -30,6 +30,18 @@ const vfsRouter = require("./vfsRoute");
 const attendancerulesRouter = require("./attendencerulesRoute");
 const holidaysRouter = require("./holidaysRoute");
 const utilsRouter = require("../utils/utilsRoute");
+const leavepolicies = require("../routes/leavepoliciesRoute");
+const leaverules = require("../routes/leaverulesRoute");
+const leavetypes = require("../routes/leavetypesRoute");
+const projects = require("../routes/projectsRoute");
+const resignapplication = require("../routes/resignapplicationRoute");
+const resignationtask = require("../routes/resignationtaskRoute");
+const salesman = require("../routes/salesmanRoute");
+const workingdays = require("../routes/workingdaysRoute");
+const customers = require("../routes/customersRoute");
+const contact = require("../routes/contactRoute");
+const addresstable = require("../routes/addresstableRoute");
+
 
 
 // baseRouter.use("/schematable", schemaTableRouter);
@@ -63,6 +75,17 @@ baseRouter.use("/vfs",vfsRouter);
 baseRouter.use("/attendencerules",attendancerulesRouter);
 baseRouter.use("/holidays",holidaysRouter);
 baseRouter.use("/utils",utilsRouter);
+baseRouter.use("/leavepolicies",leavepolicies);
+baseRouter.use("/leaverules",leaverules);
+baseRouter.use("/leavetypes",leavetypes);
+baseRouter.use("/projects",projects);
+baseRouter.use("/resignapplication",resignapplication);
+baseRouter.use("/resignationtask",resignationtask);
+baseRouter.use("/salesman",salesman);
+baseRouter.use("/workingdays",workingdays);
+baseRouter.use("/customers",customers);
+baseRouter.use("/contact", contact);
+baseRouter.use("/addresstable",addresstable);
 
 
 module.exports = baseRouter;
